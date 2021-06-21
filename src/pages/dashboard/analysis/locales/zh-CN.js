@@ -1,6 +1,9 @@
 export default {
   // 自定义
   'dashboardandanalysis.analysis.today-usage': '今日用量',
+  'dashboardandanalysis.analysis.yesterday-usage': '昨日用量',
+  'dashboardandanalysis.analysis.day-hb': '日环比',
+  'dashboardandanalysis.analysis.day-tb': '日同比',
 
 
 

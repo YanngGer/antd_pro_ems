@@ -91,7 +91,14 @@ const IntroduceRow = ({ loading }) => {
     }
   ]
 
+  const deviceTypeName = '电'
   const todayUsage = 1234
+  const yesterdayUsage = 1231
+  const unit = "KWh"
+  const dayHB = "12%"
+  const dayHBIsUpOrDown = "up"
+  const dayTB = "15%"
+  const dayTBIsUpOrDown = "down"
 
   return (
     <React.Fragment>
@@ -100,6 +107,7 @@ const IntroduceRow = ({ loading }) => {
       >
         <Col {...topColResponsiveProps}>
           <ChartCard
+            unit={unit}
             bordered={false}
             title={
               <FormattedMessage
@@ -109,46 +117,48 @@ const IntroduceRow = ({ loading }) => {
             }
             action={
               <Tooltip
-                title={
-                  <FormattedMessage
-                    id="dashboardandanalysis.analysis.introduce"
-                    defaultMessage="Introduce"
-                  />
-                }
+                title={deviceTypeName}
+                // title={
+                //   <FormattedMessage
+                //     id="dashboardandanalysis.analysis.introduce"
+                //     defaultMessage="Introduce"
+                //   />
+                // }
               >
-                <InfoCircleOutlined />
+                {/*<InfoCircleOutlined />*/}
+                {deviceTypeName}
               </Tooltip>
             }
             loading={loading}
-            total={todayUsage}
+            total={numeral(todayUsage).format('0,0')}
             footer={
               <Field
                 label={
                   <FormattedMessage
-                    id="dashboardandanalysis.analysis.day-sales"
-                    defaultMessage="Daily Sales"
+                    id="dashboardandanalysis.analysis.yesterday-usage"
+                    defaultMessage="昨日用量"
                   />
                 }
-                value={`￥${numeral(12423).format('0,0')}`}
+                value={numeral(yesterdayUsage).format('0,0')}
               />
             }
             contentHeight={46}
           >
             <Trend
-              flag="up"
+              flag={dayHBIsUpOrDown}
               style={{
                 marginRight: 16,
               }}
             >
               <FormattedMessage
-                id="dashboardandanalysis.analysis.week"
-                defaultMessage="Weekly Changes"
+                id="dashboardandanalysis.analysis.day-hb"
+                defaultMessage="日环比"
               />
-              <span className={styles.trendText}>12%</span>
+              <span className={styles.trendText}>{dayHB}</span>
             </Trend>
-            <Trend flag="down">
-              <FormattedMessage id="dashboardandanalysis.analysis.day" defaultMessage="Daily Changes" />
-              <span className={styles.trendText}>11%</span>
+            <Trend flag={dayTBIsUpOrDown}>
+              <FormattedMessage id="dashboardandanalysis.analysis.day-tb" defaultMessage="日同比" />
+              <span className={styles.trendText}>{dayTB}</span>
             </Trend>
           </ChartCard>
         </Col>

@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import styles from './index.less';
 
-const renderTotal = (total) => {
+const renderTotal = (total,unit) => {
   if (!total && total !== 0) {
     return null;
   }
@@ -20,7 +20,7 @@ const renderTotal = (total) => {
       break;
 
     default:
-      totalDom = <div className={styles.total}>{total}</div>;
+      totalDom = <div className={styles.total}>{total}<span style={{fontSize:'5px'}}>{unit}</span></div>;
   }
 
   return totalDom;
@@ -28,7 +28,7 @@ const renderTotal = (total) => {
 
 class ChartCard extends React.Component {
   renderContent = () => {
-    const { contentHeight, title, avatar, action, total, footer, children, loading } = this.props;
+    const { unit,contentHeight, title, avatar, action, total, footer, children, loading } = this.props;
 
     if (loading) {
       return false;
@@ -47,7 +47,7 @@ class ChartCard extends React.Component {
               <span className={styles.title}>{title}</span>
               <span className={styles.action}>{action}</span>
             </div>
-            {renderTotal(total)}
+            {renderTotal(total,unit)}
           </div>
         </div>
         {children && (
