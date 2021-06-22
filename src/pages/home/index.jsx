@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import echarts from "echarts";
-import "echarts-liquidfill";
-import { cloneDeep } from "lodash";
-import { Select } from "antd";
+import React, { useEffect, useState, useContext } from 'react';
+import echarts from 'echarts';
+import 'echarts-liquidfill';
+import { cloneDeep } from 'lodash';
+import { Select } from 'antd';
 
-import PageLayout from "../../components/page-layout/PageLayout";
-import SimpleSelect from "../../components/simple-select/SimpleSelect";
-import request from "../../utils/request";
-import EnergyTypeList from "../../components/energy-type-list/EnergyTypeList";
-import DeviceList from "../../components/device-list/DeviceList";
-import language from "../../utils/language";
-import "./HomePage.css";
+import PageLayout from '../../components/page-layout/PageLayout';
+import SimpleSelect from '../../components/simple-select/SimpleSelect';
+import request from '../../utils/request';
+import EnergyTypeList from '../../components/energy-type-list/EnergyTypeList';
+import DeviceList from '../../components/device-list/DeviceList';
+import language from '../../utils/language';
+import './HomePage.css';
 
 const { Option } = Select;
 
@@ -26,24 +26,24 @@ let reportOption = {
   //提示框组件
   tooltip: {
     // 坐标轴触发
-    trigger: "axis",
+    trigger: 'axis',
     //坐标轴指示器配置项
     axisPointer: {
       //十字准星指示器
-      type: "cross",
+      type: 'cross',
       //文本标签的背景颜色
       label: {
-        backgroundColor: "#6a7985",
+        backgroundColor: '#6a7985',
       },
     },
   },
-  color: ["#fd6003", "#0044ff", "#0064ff"],
+  color: ['#fd6003', '#0044ff', '#0064ff'],
   //图例组件
   legend: {
     //图例项的 icon
-    icon: "circle",
+    icon: 'circle',
     textStyle: {
-      color: "#fff",
+      color: '#fff',
     },
     //图例的数据数组
     data: [],
@@ -51,10 +51,10 @@ let reportOption = {
   //直角坐标系内绘图网格
   grid: {
     //grid 组件离容器左侧的距离
-    left: "3%",
-    right: "4%",
+    left: '3%',
+    right: '4%',
     //grid 组件离容器下侧的距离
-    bottom: "3%",
+    bottom: '3%',
     //grid 区域是否包含坐标轴的刻度标签
     containLabel: true,
   },
@@ -62,10 +62,10 @@ let reportOption = {
   xAxis: [
     {
       //类目轴
-      type: "category",
+      type: 'category',
       axisLine: {
         lineStyle: {
-          color: "#fff",
+          color: '#fff',
         },
       },
       //坐标轴两边留白策略
@@ -76,15 +76,15 @@ let reportOption = {
   //直角坐标系 grid 中的 y 轴
   yAxis: {
     //数值轴，适用于连续数据
-    type: "value",
+    type: 'value',
     //坐标轴刻度标签的相关设置
     axisLabel: {
       //刻度标签的内容格式器，支持字符串模板和回调函数两种形式
-      formatter: "{value} kWh",
+      formatter: '{value} kWh',
     },
     axisLine: {
       lineStyle: {
-        color: "#ffffff",
+        color: '#ffffff',
       },
     },
   },
@@ -92,21 +92,21 @@ let reportOption = {
 };
 let pieChartOption = {
   tooltip: {
-    trigger: "item",
-    formatter: "{a} <br/>{b}: {c} ({d}%)",
+    trigger: 'item',
+    formatter: '{a} <br/>{b}: {c} ({d}%)',
     position: [10, 10],
   },
-  color: ["#ff9f7f", "#67e0e3", "#ffdb5c"],
+  color: ['#ff9f7f', '#67e0e3', '#ffdb5c'],
   series: [
     {
-      name: "",
-      type: "pie",
-      selectedMode: "single",
-      radius: [0, "60%"],
+      name: '',
+      type: 'pie',
+      selectedMode: 'single',
+      radius: [0, '60%'],
 
       label: {
         show: false,
-        position: "outside",
+        position: 'outside',
       },
       labelLine: {
         show: false,
@@ -124,7 +124,7 @@ const HomePage = (props) => {
 
   const [cumulativeConsume, setCumulativeConsume] = useState([]);
   const [deviceList, setDeviceList] = useState([]);
-  const [energyTimeRange, setEnergyTimeRange] = useState("this_week");
+  const [energyTimeRange, setEnergyTimeRange] = useState('this_week');
 
   useEffect(() => {
     getEnergyConsume();
@@ -152,38 +152,34 @@ const HomePage = (props) => {
     setCurrentArea(value);
   };
   const energySelectTimeRange = (value) => {
-    setEnergyTimeRange(
-      value === 0 ? "this_week" : value === 1 ? "this_month" : "this_year"
-    );
+    setEnergyTimeRange(value === 0 ? 'this_week' : value === 1 ? 'this_month' : 'this_year');
   };
 
   const getDeviceList = () => {
     if (currentArea == 0) {
       setCurrentDevice(-1);
-      request(
-        `device/?language=${languageEnv}&device_type=${currentEnergyType}`
-      ).then((res) => {
+      request(`device/?language=${languageEnv}&device_type=${currentEnergyType}`).then((res) => {
         Array.isArray(res) &&
-        res.unshift({
-          name: language.Alldevice[languageEnv],
-          id: -1,
-          alias: language.Alldevice[languageEnv],
-        });
+          res.unshift({
+            name: language.Alldevice[languageEnv],
+            id: -1,
+            alias: language.Alldevice[languageEnv],
+          });
         setDeviceList(res);
       });
     } else {
       setCurrentDevice(-1);
       request(
         `device/?language=${languageEnv}&area_key=${
-          currentEnergyType + "-" + currentArea
-        }&device_type=${currentEnergyType}`
+          currentEnergyType + '-' + currentArea
+        }&device_type=${currentEnergyType}`,
       ).then((res) => {
         Array.isArray(res) &&
-        res.unshift({
-          name: language.Alldevice[languageEnv],
-          id: -1,
-          alias: language.Alldevice[languageEnv],
-        });
+          res.unshift({
+            name: language.Alldevice[languageEnv],
+            id: -1,
+            alias: language.Alldevice[languageEnv],
+          });
         setDeviceList(res);
       });
     }
@@ -192,23 +188,23 @@ const HomePage = (props) => {
     const res = await request(
       `energy_consumption_statistics/?device_type=${currentEnergyType}&area=${currentArea}&device_id=${
         currentDevice === -1 ? 0 : currentDevice
-      }`
+      }`,
     );
     if (res.status !== 0) return setCumulativeConsume([]);
     setCumulativeConsume(res);
-    localStorage.setItem("title", res.company_name);
-    renderPieChart(res.pie_today_data_list, "chart-line");
-    renderPieChart(res.pie_last_week_data_list, "chart-line-week");
-    renderPieChart(res.pie_last_month_data_list, "chart-line-month");
-    renderLiquidFill(res.memory_usage, "chart-bar-1");
+    localStorage.setItem('title', res.company_name);
+    renderPieChart(res.pie_today_data_list, 'chart-line');
+    renderPieChart(res.pie_last_week_data_list, 'chart-line-week');
+    renderPieChart(res.pie_last_month_data_list, 'chart-line-month');
+    renderLiquidFill(res.memory_usage, 'chart-bar-1');
   };
   const getEnergyChartData = async () => {
     const res = await request(
       `energy_consumption_display/?time_range=${energyTimeRange}&area=${currentArea}&device_type=${currentEnergyType}&device_id=${
         currentDevice === -1 ? 0 : currentDevice
-      }`
+      }`,
     );
-    renderLineChart(res, "reportChart");
+    renderLineChart(res, 'reportChart');
   };
   // 渲染图形
   const renderPieChart = (data, dom) => {
@@ -247,7 +243,7 @@ const HomePage = (props) => {
         smooth: 0.6,
         // key为本周用电趋势
         name: name,
-        type: "line",
+        type: 'line',
         lineStyle: {
           width: 1,
         },
@@ -267,7 +263,7 @@ const HomePage = (props) => {
     chartData.xAxis[0].data = data.results.date_list;
     // 填充y轴的单位
     chartData.yAxis.axisLabel = {
-      formatter: "{value} " + data.results.unit || "kWh",
+      formatter: '{value} ' + data.results.unit || 'kWh',
     };
     // 传递数据
     reportChart.setOption(chartData);
@@ -277,11 +273,11 @@ const HomePage = (props) => {
       // backgroundColor: '#ccc', //背景色
       series: [
         {
-          type: "liquidFill",
-          color: ["#ff0000"],
+          type: 'liquidFill',
+          color: ['#ff0000'],
           data: [data],
-          name: "内存使用率",
-          radius: "65%",
+          name: '内存使用率',
+          radius: '65%',
           itemStyle: {
             //普通样式
             opacity: 0.5,
@@ -315,21 +311,21 @@ const HomePage = (props) => {
 
   // 使用一个接口请求获取所有的能源类型，所有区域，所有设备
   const myData = {
-    all_device_type: ["电", "水"],
-    all_area: ["A区", "B区"],
-    all_device: ["device1", "device2", "device3"],
+    all_device_type: ['电', '水'],
+    all_area: ['A区', 'B区'],
+    all_device: ['device1', 'device2', 'device3'],
   };
 
   return (
     <React.Fragment>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className="home-page-top-title">
           {language.Cumulativeenergyconsumption[languageEnv]}
         </div>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <EnergyTypeList defaultValue={1} handleChange={selectEnergy} />
 
-          <div style={{ marginLeft: "24px" }}>
+          <div style={{ marginLeft: '24px' }}>
             <DeviceList
               handleChange={selectArea}
               value={currentArea}
@@ -337,7 +333,7 @@ const HomePage = (props) => {
             />
           </div>
 
-          <div style={{ marginLeft: "24px" }}>
+          <div style={{ marginLeft: '24px' }}>
             <div className="search-select-module">
               <Select
                 showSearch
@@ -347,94 +343,69 @@ const HomePage = (props) => {
                 onChange={(value) => setCurrentDevice(value)}
                 defaultValue={currentDevice}
                 filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
-                  0
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
               >
                 {deviceList.length &&
-                deviceList.map((item) => {
-                  return (
-                    <Option key={item.id} value={item.id}>
-                      {item.alias}
-                    </Option>
-                  );
-                })}
+                  deviceList.map((item) => {
+                    return (
+                      <Option key={item.id} value={item.id}>
+                        {item.alias}
+                      </Option>
+                    );
+                  })}
               </Select>
             </div>
           </div>
         </div>
       </div>
 
-      <div style={{ marginTop: "24px" }}>
+      <div style={{ marginTop: '24px' }}>
         {/*四张卡片*/}
-        <div style={{ display: "flex" }}>
+        <div style={{ display: 'flex' }}>
           <div className="chart-item">
-            <div className="chart-title">
-              {language.TodayUsage[languageEnv]}
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div style={{ display: "flex" }}>
+            <div className="chart-title">{language.TodayUsage[languageEnv]}</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex' }}>
                 {/*今日用量的值*/}
-                <div className="chart-kw">
-                  {cumulativeConsume.today_energy_consumption || 0}
-                </div>
+                <div className="chart-kw">{cumulativeConsume.today_energy_consumption || 0}</div>
                 {/*今日用量的单位*/}
                 <div className="chart-unit">{cumulativeConsume.unit}</div>
               </div>
-              <div style={{ marginRight: "12px" }}>
+              <div style={{ marginRight: '12px' }}>
                 {/*环比增长的值*/}
-                <div className="chart-percent">
-                  {cumulativeConsume.today_to_yesterday || "0%"}
-                </div>
+                <div className="chart-percent">{cumulativeConsume.today_to_yesterday || '0%'}</div>
                 {/*环比增长文字*/}
-                <div className="chart-add">
-                  {language.Monthonmonthgrowth[languageEnv]}
-                </div>
+                <div className="chart-add">{language.Monthonmonthgrowth[languageEnv]}</div>
               </div>
             </div>
             {/*饼图的样式*/}
             <div id="chart-line" className="home-page-chart-table"></div>
           </div>
           <div className="chart-item">
-            <div className="chart-title">
-              {language.LastWeekUsage[languageEnv]}
-            </div>
+            <div className="chart-title">{language.LastWeekUsage[languageEnv]}</div>
             <div className="chart-data flex flex-between">
               <div className="flex">
-                <div className="chart-kw">
-                  {cumulativeConsume.this_week_energy_consumption}
-                </div>
+                <div className="chart-kw">{cumulativeConsume.this_week_energy_consumption}</div>
                 <div className="chart-unit">{cumulativeConsume.unit}</div>
               </div>
               <div className="m-r-12">
-                <div className="chart-percent">
-                  {cumulativeConsume.this_week_to_last_week}
-                </div>
-                <div className="chart-add">
-                  {language.Monthonmonthgrowth[languageEnv]}
-                </div>
+                <div className="chart-percent">{cumulativeConsume.this_week_to_last_week}</div>
+                <div className="chart-add">{language.Monthonmonthgrowth[languageEnv]}</div>
               </div>
             </div>
             <div id="chart-line-week" className="home-page-chart-table"></div>
           </div>
           <div className="chart-item">
-            <div className="chart-title">
-              {language.LastMonthUsage[languageEnv]}
-            </div>
+            <div className="chart-title">{language.LastMonthUsage[languageEnv]}</div>
             <div className="chart-data flex flex-between">
               <div className="flex">
-                <div className="chart-kw">
-                  {cumulativeConsume.this_month_energy_consumption}
-                </div>
+                <div className="chart-kw">{cumulativeConsume.this_month_energy_consumption}</div>
                 <div className="chart-unit">{cumulativeConsume.unit}</div>
               </div>
               <div className="m-r-12">
-                <div className="chart-percent">
-                  {cumulativeConsume.this_month_to_last_month}
-                </div>
-                <div className="chart-add">
-                  {language.Monthonmonthgrowth[languageEnv]}
-                </div>
+                <div className="chart-percent">{cumulativeConsume.this_month_to_last_month}</div>
+                <div className="chart-add">{language.Monthonmonthgrowth[languageEnv]}</div>
               </div>
             </div>
             <div id="chart-line-month" className="home-page-chart-table"></div>
@@ -447,12 +418,8 @@ const HomePage = (props) => {
                 <div className="chart-unit">G</div>
               </div>
               <div className="m-r-12">
-                <div className="chart-percent">
-                  {cumulativeConsume.disk_usage}
-                </div>
-                <div className="chart-add">
-                  {language.diskUsage[languageEnv]}
-                </div>
+                <div className="chart-percent">{cumulativeConsume.disk_usage}</div>
+                <div className="chart-add">{language.diskUsage[languageEnv]}</div>
               </div>
             </div>
 
@@ -478,7 +445,7 @@ const HomePage = (props) => {
               </div>
             </div>
             <div className="energy-report-chart">
-              <div id="reportChart" className={"w-h-100"}></div>
+              <div id="reportChart" className={'w-h-100'}></div>
             </div>
           </div>
         </div>

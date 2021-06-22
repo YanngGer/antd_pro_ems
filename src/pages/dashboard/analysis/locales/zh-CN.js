@@ -5,11 +5,20 @@ export default {
   'dashboardandanalysis.analysis.day-hb': '日环比',
   'dashboardandanalysis.analysis.day-tb': '日同比',
 
+  'dashboardandanalysis.analysis.week-usage': '本周用量',
+  'dashboardandanalysis.analysis.last-week-usage': '上周用量',
+  'dashboardandanalysis.analysis.week-hb': '周环比',
+  'dashboardandanalysis.analysis.week-tb': '周同比',
 
+  'dashboardandanalysis.analysis.month-usage': '本月用量',
+  'dashboardandanalysis.analysis.last-month-usage': '上月用量',
+  'dashboardandanalysis.analysis.month-hb': '月环比',
+  'dashboardandanalysis.analysis.month-tb': '月同比',
 
-
-
-
+  'dashboardandanalysis.analysis.year-usage': '本年用量',
+  'dashboardandanalysis.analysis.last-year-usage': '去年用量',
+  'dashboardandanalysis.analysis.year-hb': '年环比',
+  'dashboardandanalysis.analysis.year-tb': '年同比',
 
   // 系统自带 待删除
   'dashboardandanalysis.analysis.test': '工专路 {no} 号店',

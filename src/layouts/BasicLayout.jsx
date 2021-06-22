@@ -151,9 +151,7 @@ const BasicLayout = (props) => {
         }}
       >
         <Authorized authority={authorized.authority} noMatch={noMatch}>
-          <div style={{margin:'24px'}}>
-            {children}
-          </div>
+          <div style={{ margin: '24px' }}>{children}</div>
         </Authorized>
       </ProLayout>
 

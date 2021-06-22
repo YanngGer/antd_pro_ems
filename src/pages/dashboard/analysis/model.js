@@ -1,35 +1,15 @@
-import { fakeChartData } from './service';
-const initState = {
-  visitData: [],
-  visitData2: [],
-  salesData: [],
-  searchData: [],
-  offlineData: [],
-  offlineChartData: [],
-  salesTypeData: [],
-  salesTypeDataOnline: [],
-  salesTypeDataOffline: [],
-  radarData: [],
-};
+import { getDashboardAnalysisChartData } from './service';
+
+const initState = [];
 const Model = {
   namespace: 'dashboardAndanalysis',
   state: initState,
   effects: {
     *fetch(_, { call, put }) {
-      const response = yield call(fakeChartData);
+      const response = yield call(getDashboardAnalysisChartData);
       yield put({
         type: 'save',
         payload: response,
-      });
-    },
-
-    *fetchSalesData(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
-        type: 'save',
-        payload: {
-          salesData: response.salesData,
-        },
       });
     },
   },

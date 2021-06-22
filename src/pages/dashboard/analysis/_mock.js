@@ -2,7 +2,7 @@ import moment from 'moment';
 // mock data
 const visitData = [];
 const beginDay = new Date().getTime();
-const fakeY = [7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5];
+const fakeY = [7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5, 8, 9, 9];
 
 for (let i = 0; i < fakeY.length; i += 1) {
   visitData.push({
